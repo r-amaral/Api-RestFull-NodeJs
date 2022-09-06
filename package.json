@@ -24,5 +24,6 @@
   },
   "devDependencies": {
     "supervisor": "^0.12.0"
-  }
+  },
+  "type": "module"
 }

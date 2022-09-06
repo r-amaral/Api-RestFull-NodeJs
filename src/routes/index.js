@@ -2,7 +2,7 @@ import express from 'express';
 import user from './userRoutes.js'
 
 const routes = (app) => {
-    app.route('/').get((req, res) => {
+    app.route('/api/v1').get((req, res) => {
         res.status(200).send({ title: "User registration" });
     })
 

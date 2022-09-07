@@ -19,7 +19,6 @@ class UserController {
     static listUserById = (req, res) => {
         const id = req.params.id;
         users.findById(id, (err, users) => {
-
             if (err) {
                 res.status(404).send({ message: `${err.message} - User id not found` });
             } else {
@@ -47,11 +46,7 @@ class UserController {
     static registerUser = (req, res) => {
         let user = new users(req.body);
         user.save((err, user) => {
-            if (err) {
-                res.status(500).send({ message: `${err.message} - Failed to register User.` })
-            } else {
-                res.status(201).send(user.toJSON())
-            }
+            err ? res.status(500).send({ message: `Failed to register User - ${err.message}` }) : res.status(201).send(user.toJSON())
         })
     }
 
@@ -72,7 +67,7 @@ class UserController {
             if (!err) {
                 res.status(204).send({ message: "User has been successfully deleted" });
             } else {
-                res.status(404).send({ message: `${err.message} - User Not Found` })
+                res.status(404).send({ message: `${err.message} - User Not Foundz` })
             }
         })
     }

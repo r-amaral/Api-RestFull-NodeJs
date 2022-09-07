@@ -7,9 +7,9 @@ class UserController {
         users.find((err, users) => {
 
             users = users.map(user => {
-                const user_aux = { ...user['_doc'] };
-                delete user_aux.password;
-                return user_aux;
+                const userAux = { ...user['_doc'] };
+                delete userAux.password;
+                return userAux;
             })
 
             res.status(200).json(users);
@@ -19,13 +19,30 @@ class UserController {
     static listUserById = (req, res) => {
         const id = req.params.id;
         users.findById(id, (err, users) => {
+
             if (err) {
-                res.status(400).send({ message: `${err.message} - User id not found` });
+                res.status(404).send({ message: `${err.message} - User id not found` });
             } else {
-                res.status(200).send(users);
+                const userAux = { ...users['_doc'] };
+                delete userAux.password;
+                res.status(200).send(userAux);
             }
         })
     }
+
+    // static listUserByName = (req, res) => {
+    //     const name = req.params.name;
+
+    //     users.findById(name, (err, users) => {
+    //         if (err) {
+    //             res.status(404).send({ message: `${err.message} - User id not found` });
+    //         } else {
+    //             const userAux = { ...users['_doc'] };
+    //             delete userAux.password;
+    //             res.status(200).send(userAux);
+    //         }
+    //     })
+    // }
 
     static registerUser = (req, res) => {
         let user = new users(req.body);
@@ -44,7 +61,7 @@ class UserController {
             if (!err) {
                 res.status(200).send({ message: "User updated successfully" });
             } else {
-                res.status(500).send({ message: err.message })
+                res.status(404).send({ message: `${err.message} - User Not Found` })
             }
         })
     }
@@ -53,9 +70,9 @@ class UserController {
         const id = req.params.id;
         users.findByIdAndRemove(id, (err) => {
             if (!err) {
-                res.status(200).send({ message: "User has been successfully deleted" });
+                res.status(204).send({ message: "User has been successfully deleted" });
             } else {
-                res.status(500).send({ message: err.message })
+                res.status(404).send({ message: `${err.message} - User Not Found` })
             }
         })
     }

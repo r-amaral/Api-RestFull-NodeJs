@@ -3,7 +3,15 @@ import users from '../models/User.js'
 class UserController {
 
     static listUser = (req, res) => {
+
         users.find((err, users) => {
+
+            users = users.map(user => {
+                const user_aux = { ...user['_doc'] };
+                delete user_aux.password;
+                return user_aux;
+            })
+
             res.status(200).json(users);
         })
     }

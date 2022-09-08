@@ -4,14 +4,22 @@ class UserController {
 
     static listUser = (req, res) => {
         users.find((err, users) => {
-            res.status(200).json(resultUsers);
+            const page = req.query.page;
+            const limit = req.query.limit;
+
+            const startIndex = ((page - 1) * limit);
+            const endIndex = (page * limit)
+
+            const result = users.slice(startIndex, endIndex);
+
+            res.status(200).json(result);
         })
     }
 
     static listUserByName = (req, res) => {
         const name = req.query.name;
 
-        users.find({ name: { $regex: name } }, {}, (err, users) => {
+        users.find({ name: { $regex: name, $option: 'i' } }, {}, (err, users) => {
             users.length == 0 ? res.status(404).send({ message: `User name not found` })
                 : res.status(200).send(users)
         })
@@ -30,7 +38,7 @@ class UserController {
         let user = new users(req.body);
 
         user.save((err, user) => {
-            err ? res.status(500).send({ message: `Failed to register User - ${err.message}` })
+            err ? res.status(500).send({ message: err.message })
                 : res.status(201).send(user.toJSON());
         })
     }
@@ -40,7 +48,7 @@ class UserController {
 
         users.findByIdAndUpdate(id, { $set: req.body }, { runValidators: true }, (err) => {
             !err ? res.status(200).send({ message: "User updated successfully" })
-                : res.status(404).send({ message: `${err.message} - User Not Found` });
+                : res.status(404).send({ message: `User Not Found` });
         })
     }
 
@@ -48,8 +56,8 @@ class UserController {
         const id = req.params.id;
 
         users.findByIdAndRemove(id, (err) => {
-            !err ? res.status(204).send({ message: "User has been successfully deleted" })
-                : res.status(404).send({ message: `${err.message} - User Not Found` });
+            !err ? res.status(204).send('User was deleted succefully!')
+                : res.status(404).send({ message: `User Not Found` });
         })
     }
 }

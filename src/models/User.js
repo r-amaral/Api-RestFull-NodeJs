@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { validationDate } from "../validationDate.js";
+import { validationDate } from "../utils/validationDate.js";
 
 const userSchema = new mongoose.Schema(
     {
@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
             validate: [e => validationDate(e), 'User under 18 years old'],
             required: true
         },
-        email: { type: String, required: true, match: [/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/gm, 'Please fill a valid email address'] },
+        email: { type: String, required: true, match: [/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/gm, 'Invalid email'] },
         password: { type: String, required: true, minlength: 6, select: false },
         address: { type: String, required: true },
         number: { type: String, required: true },

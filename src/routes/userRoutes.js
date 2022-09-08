@@ -5,8 +5,8 @@ const router = express.Router();
 
 router
     .get('/api/v1/users', UserController.listUser)
+    .get('/api/v1/users/name', UserController.listUserByName)
     .get('/api/v1/users/:id', UserController.listUserById)
-    // .get('/api/v1/users/:id', UserController.listUserByName)
     .post('/api/v1/users', UserController.registerUser)
     .put('/api/v1/users/:id', UserController.updateUser)
     .delete('/api/v1/users/:id', UserController.deleteUser)

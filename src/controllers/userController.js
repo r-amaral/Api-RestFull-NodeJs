@@ -48,7 +48,7 @@ class UserController {
 
         users.findByIdAndUpdate(id, { $set: req.body }, { runValidators: true }, (err) => {
             !err ? res.status(200).send({ message: "User updated successfully" })
-                : res.status(404).send({ message: `User Not Found` });
+                : res.status(404).send({ message: err.message });
         })
     }
 

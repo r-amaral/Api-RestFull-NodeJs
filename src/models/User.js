@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
         city: { type: String, required: true },
         state: { type: String, required: true },
         country: { type: String, required: true },
-        zipCode: { type: String, required: true }
+        zipCode: { type: String, required: true, minlength: 8 }
     },
     {
         versionKey: false

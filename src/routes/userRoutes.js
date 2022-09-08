@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
     .get('/api/v1/users', UserController.listUser)
-    .get('/api/v1/users/name', UserController.listUserByName)
+    .get('/api/v1/users/search', UserController.listUserByName)
     .get('/api/v1/users/:id', UserController.listUserById)
     .post('/api/v1/users', UserController.registerUser)
     .put('/api/v1/users/:id', UserController.updateUser)
